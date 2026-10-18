@@ -3,13 +3,12 @@ import mongoose from 'mongoose';
 import cors from 'cors';
 import path from 'path';
 import { errors } from 'celebrate';
+import { PORT, DB_ADDRESS } from './config';
 import NotFoundError from './errors/not-found-error';
 import errorHandler from './middlewares/error-handler';
 import productRouter from './routes/product';
 import orderRouter from './routes/order';
 import { requestLogger, errorLogger } from './middlewares/logger';
-
-const { PORT = 3000, DB_ADDRESS = 'mongodb://127.0.0.1:27017/weblarek' } = process.env;
 
 const app = express();
 
