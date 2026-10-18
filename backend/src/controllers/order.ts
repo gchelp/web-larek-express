@@ -1,43 +1,11 @@
 import { NextFunction, Request, Response } from 'express';
-import { isValidObjectId } from 'mongoose';
-import validator from 'validator';
 import { faker } from '@faker-js/faker';
 import Product from '../models/product';
 import BadRequestError from '../errors/bad-request-error';
 
-const PAYMENT_TYPES = ['card', 'online'];
-
-const isNonEmptyString = (value: unknown): value is string => (
-  typeof value === 'string' && value.trim().length > 0
-);
-
 const createOrder = async (req: Request, res: Response, next: NextFunction) => {
   try {
-    const {
-      payment, email, phone, address, total, items,
-    } = req.body;
-
-    if (!PAYMENT_TYPES.includes(payment)) {
-      return next(new BadRequestError('Неверный способ оплаты'));
-    }
-    if (!isNonEmptyString(email) || !validator.isEmail(email)) {
-      return next(new BadRequestError('Неверный email'));
-    }
-    if (!isNonEmptyString(phone)) {
-      return next(new BadRequestError('Не указан телефон'));
-    }
-    if (!isNonEmptyString(address)) {
-      return next(new BadRequestError('Не указан адрес'));
-    }
-    if (typeof total !== 'number' || Number.isNaN(total)) {
-      return next(new BadRequestError('Неверная сумма заказа'));
-    }
-    if (!Array.isArray(items) || items.length === 0) {
-      return next(new BadRequestError('Список товаров пуст'));
-    }
-    if (!items.every((id) => typeof id === 'string' && isValidObjectId(id))) {
-      return next(new BadRequestError('Неверный идентификатор товара'));
-    }
+    const { total, items } = req.body;
 
     const uniqueIds = [...new Set<string>(items)];
     const products = await Product.find({ _id: { $in: uniqueIds } });
