@@ -58,7 +58,7 @@ const createOrder = async (req: Request, res: Response, next: NextFunction) => {
       return next(new BadRequestError('Сумма заказа не совпадает со стоимостью товаров'));
     }
 
-    return res.status(200).send({ id: faker.string.uuid(), total });
+    return res.status(201).send({ id: faker.string.uuid(), total });
   } catch (err) {
     return next(err);
   }
