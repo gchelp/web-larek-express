@@ -2,12 +2,12 @@
   "name": "weblarek_backend",
   "version": "1.0.0",
   "description": "< Добавьте описание проекта в свободной форме >",
-  "main": "dist/app.js",
+  "main": "src/app.ts",
   "scripts": {
     "lint": "npx eslint src/**/*.ts",
     "build": "tsc",
-    "dev": "npx nodemon -L src/app.ts ",
-    "start": "ts-node src/app.ts",
+    "dev": "ts-node-dev --respawn src/app.ts",
+    "start": "ts-node .",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "author": "< Укажите здесь автора работы >",
